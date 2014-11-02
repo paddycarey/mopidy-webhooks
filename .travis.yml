@@ -5,7 +5,6 @@ python:
 
 env:
   - TOX_ENV=py27
-  - TOX_ENV=flake8
 
 install:
   - "wget -O - http://apt.mopidy.com/mopidy.gpg | sudo apt-key add -"
