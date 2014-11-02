@@ -2,7 +2,9 @@
 *.pyc
 *.swp
 .coverage
+.tox/
 MANIFEST
 build/
 dist/
 mopidy.conf
+xunit-py27.xml
