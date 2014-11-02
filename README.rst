@@ -61,7 +61,13 @@ Project resources
 Changelog
 =========
 
-v0.1.0 (UNRELEASED)
+v0.2.0 (UNRELEASED)
+----------------------------------------
+
+- Initial release.
+
+
+v0.1.0
 ----------------------------------------
 
 - Initial release.
