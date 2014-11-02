@@ -2,24 +2,18 @@ from __future__ import unicode_literals
 
 import unittest
 
-from mopidy_webhook import Extension
+from mopidy_webhooks import Extension
 
 
 class ExtensionTest(unittest.TestCase):
 
     def test_get_default_config(self):
-        ext = Extension()
-
-        config = ext.get_default_config()
-
-        self.assertIn('[webhook]', config)
+        config = Extension().get_default_config()
+        self.assertIn('[webhooks]', config)
         self.assertIn('enabled = true', config)
 
     def test_get_config_schema(self):
-        ext = Extension()
-
-        schema = ext.get_config_schema()
-
-        self.assertIn('username', schema)
-        self.assertIn('password', schema)
-        self.assertIn('webhook', schema)
+        schema = Extension().get_config_schema()
+        self.assertIn('api_key', schema)
+        self.assertIn('api_key_header_name', schema)
+        self.assertIn('webhook_url', schema)

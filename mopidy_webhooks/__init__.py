@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 class Extension(ext.Extension):
 
-    dist_name = 'Mopidy-Webhook'
-    ext_name = 'webhook'
+    dist_name = 'Mopidy-Webhooks'
+    ext_name = 'webhooks'
     version = __version__
 
     def get_default_config(self):
@@ -22,9 +22,10 @@ class Extension(ext.Extension):
 
     def get_config_schema(self):
         schema = super(Extension, self).get_config_schema()
-        schema['username'] = config.String()
-        schema['password'] = config.Secret()
-        schema['webhook'] = config.String()
+        schema['api_key'] = config.String()
+        schema['api_key_header_name'] = config.String()
+        schema['status_update_interval'] = config.Integer()
+        schema['webhook_url'] = config.String()
         return schema
 
     def setup(self, registry):

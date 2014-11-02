@@ -11,13 +11,13 @@ def get_version(filename):
 
 
 setup(
-    name='Mopidy-Webhook',
-    version=get_version('mopidy_webhook/__init__.py'),
-    url='https://github.com/paddycarey/mopidy-webhook',
+    name='Mopidy-Webhooks',
+    version=get_version('mopidy_webhooks/__init__.py'),
+    url='https://github.com/paddycarey/mopidy-webhooks',
     license='Apache License, Version 2.0',
     author='Patrick Carey',
     author_email='paddy@wackwack.co.uk',
-    description='Mopidy webhook extension',
+    description='Mopidy extension that sends webhook notifications to a remote server',
     long_description=open('README.rst').read(),
     packages=find_packages(exclude=['tests', 'tests.*']),
     zip_safe=False,
@@ -35,7 +35,7 @@ setup(
     ],
     entry_points={
         'mopidy.ext': [
-            'webhook = mopidy_webhook:Extension',
+            'webhooks = mopidy_webhooks:Extension',
         ],
     },
     classifiers=[
