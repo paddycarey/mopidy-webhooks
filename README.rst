@@ -43,7 +43,7 @@ Before starting Mopidy, you must add configuration for Mopidy-Webhooks to your M
     status_update_interval = 5                        ; optional
     webhook_url = http://localhost:8080/api/webhooks/ ; required
 
-``api_key`` if present, will be sent as a HTTP header using the key ``X-API-KEY``.  If you'd rather use a different header name, this can be customised with the configuration value ``api_key_header_name``.
+``api_key`` if present, will be sent as a HTTP header using the key ``X-MOPIDY-WEBHOOKS-API-KEY``.  If you'd rather use a different header name, this can be customised with the configuration value ``api_key_header_name``.
 
 ``status_update_interval`` controls the interval between the sending of status update webhooks (in milliseconds). Set to `0` to disable the sending of periodic status updates. If you want continuous status updates, just use a very very small value.
 
