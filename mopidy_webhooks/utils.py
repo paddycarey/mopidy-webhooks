@@ -13,7 +13,7 @@ from mopidy.models import ModelJSONEncoder
 logger = logging.getLogger(__name__)
 
 
-def _send_webhook(config, payload):
+def send_webhook(config, payload):
     """Sends a HTTP request to the configured server.
 
     All exceptions are suppressed but emit a warning message in the log.
@@ -34,19 +34,3 @@ def _send_webhook(config, payload):
             response.status_code,
             response.text,
         ))
-
-
-class ReporterMixin(object):
-    """Mixin that provides common reporter functionality
-    """
-    def on_start(self):
-        logger.info('{0} started.'.format(self.__class__.__name__))
-
-    def on_stop(self):
-        logger.info('{0} stopped.'.format(self.__class__.__name__))
-
-    def send_webhook(self, payload):
-        """Given a serializable object, encode `data` as JSON and send to
-        remote server using a HTTP POST request.
-        """
-        _send_webhook(self.config, payload)

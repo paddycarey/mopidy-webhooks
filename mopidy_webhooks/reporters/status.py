@@ -10,13 +10,13 @@ import time
 import pykka
 
 # local imports
-from . import mixins
+from mopidy_webhooks.utils import send_webhook
 
 
 logger = logging.getLogger(__name__)
 
 
-class StatusReporter(pykka.ThreadingActor, mixins.ReporterMixin):
+class StatusReporter(pykka.ThreadingActor):
     """Periodically sends webhook notifications to the configured server
     containing data on the player's current status.
     """
@@ -30,7 +30,7 @@ class StatusReporter(pykka.ThreadingActor, mixins.ReporterMixin):
     def on_start(self):
         """Runs when the actor is started and schedules a status update
         """
-        mixins.ReporterMixin.on_start(self)
+        logger.info('StatusReporter started.')
         # if configured not to report status then return immediately
         if self.config['status_update_interval'] == 0:
             logger.info('StatusReporter disabled by configuration.')
@@ -56,5 +56,5 @@ class StatusReporter(pykka.ThreadingActor, mixins.ReporterMixin):
             'state': self.core.playback.state.get(),
             'time_position': self.core.playback.time_position.get(),
         }
-        self.send_webhook({'status_report': current_status})
+        send_webhook(self.config, {'status_report': current_status})
         self.report_again(current_status)
