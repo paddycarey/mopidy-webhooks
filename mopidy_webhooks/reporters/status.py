@@ -17,6 +17,9 @@ logger = logging.getLogger(__name__)
 
 
 class StatusReporter(pykka.ThreadingActor, mixins.ReporterMixin):
+    """Periodically sends webhook notifications to the configured server
+    containing data on the player's current status.
+    """
 
     def __init__(self, config, core):
         super(StatusReporter, self).__init__()
@@ -25,6 +28,8 @@ class StatusReporter(pykka.ThreadingActor, mixins.ReporterMixin):
         self.in_future = self.actor_ref.proxy()
 
     def on_start(self):
+        """Runs when the actor is started and schedules a status update
+        """
         mixins.ReporterMixin.on_start(self)
         # if configured not to report status then return immediately
         if self.config['status_update_interval'] == 0:
@@ -33,6 +38,9 @@ class StatusReporter(pykka.ThreadingActor, mixins.ReporterMixin):
         self.in_future.report_status()
 
     def report_again(self, current_status):
+        """Computes a sleep interval, sleeps for the specified amount of time
+        then kicks off another status report.
+        """
         # calculate sleep interval based on current status and configured interval
         _m = {'playing': 1, 'paused': 2, 'stopped': 5}[current_status['state']]
         interval = (self.config['status_update_interval'] * _m) / 1000.0
@@ -41,6 +49,8 @@ class StatusReporter(pykka.ThreadingActor, mixins.ReporterMixin):
         self.in_future.report_status()
 
     def report_status(self):
+        """Get status of player from mopidy core and send webhook.
+        """
         current_status = {
             'current_track': self.core.playback.current_track.get(),
             'state': self.core.playback.state.get(),
