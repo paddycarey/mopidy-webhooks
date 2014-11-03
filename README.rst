@@ -61,10 +61,11 @@ Project resources
 Changelog
 =========
 
-v0.2.0 (UNRELEASED)
+v0.2.0
 ----------------------------------------
 
-- Initial release.
+- General refactoring
+- Small docs improvements
 
 
 v0.1.0
