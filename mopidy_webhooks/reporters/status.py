@@ -10,7 +10,7 @@ import time
 import pykka
 
 # local imports
-from mopidy_webhooks.utils import send_webhook
+from ..utils import send_webhook
 
 
 logger = logging.getLogger(__name__)
