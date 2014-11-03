@@ -10,13 +10,13 @@ import time
 import pykka
 
 # local imports
-from . import base
+from . import mixins
 
 
 logger = logging.getLogger(__name__)
 
 
-class StatusReporter(pykka.ThreadingActor, base.BaseReporter):
+class StatusReporter(pykka.ThreadingActor, mixins.ReporterMixin):
 
     def __init__(self, config, core):
         super(StatusReporter, self).__init__()
@@ -25,7 +25,7 @@ class StatusReporter(pykka.ThreadingActor, base.BaseReporter):
         self.in_future = self.actor_ref.proxy()
 
     def on_start(self):
-        base.BaseReporter.on_start(self)
+        mixins.ReporterMixin.on_start(self)
         # if configured not to report status then return immediately
         if self.config['status_update_interval'] == 0:
             logger.info('StatusReporter disabled by configuration.')

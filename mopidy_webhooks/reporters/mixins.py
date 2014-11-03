@@ -31,7 +31,7 @@ def _send_webhook(api_key_header_name, api_key, webhook_url, data):
         logger.debug('Webhook Response Body: {0}'.format(response.text))
 
 
-class BaseReporter(object):
+class ReporterMixin(object):
 
     def on_start(self):
         logger.info('{0} started.'.format(self.__class__.__name__))
