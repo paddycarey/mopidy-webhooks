@@ -22,7 +22,10 @@ def send_webhook(config, payload):
         response = requests.post(
             config['webhook_url'],
             data=json.dumps(payload, cls=ModelJSONEncoder),
-            headers={config['api_key_header_name']: config['api_key']},
+            headers={
+                config['api_key_header_name']: config['api_key'],
+                'Content-Type': 'application/json',
+            },
         )
     except Exception as e:
         logger.warning('Unable to send webhook: ({1}) {2}'.format(
