@@ -1,8 +1,9 @@
-include .coveragerc
-include .travis.yml
+include *.py
+include *.rst
 include LICENSE
 include MANIFEST.in
-include README.rst
+include pyproject.toml
+
 include mopidy_webhooks/ext.conf
 
 recursive-include tests *.py
