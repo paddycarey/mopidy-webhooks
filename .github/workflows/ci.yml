@@ -1,0 +1,54 @@
+name: CI
+
+on: ["push", "pull_request"]
+
+jobs:
+  main:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: "Python 3.8"
+            python: "3.8"
+            experimental: false
+            coverage: false
+          - name: "Python 3.9"
+            python: "3.9"
+            experimental: false
+            coverage: true
+          - name: "Python 3.10"
+            python: "3.10.0-rc.1"
+            experimental: true
+            coverage: false
+
+    name: ${{ matrix.name }}
+    runs-on: "ubuntu-20.04"
+    container: "ghcr.io/mopidy/ci:latest"
+    continue-on-error: ${{ matrix.experimental }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Set up Python ${{ matrix.python }}"
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: "Fix home dir permissions to enable pip caching"
+        run: chown -R root /github/home
+      - name: "Cache dependencies"
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-${{ matrix.python }}-pip-${{ hashFiles('setup.cfg') }}-${{ hashFiles('tasks.py') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.python }}-pip-
+      - name: "Install mopidy system dependencies"
+        run: "python3 -m pip install pygobject"
+      - name: "Install package dependencies"
+        run: "python3 -m pip install .[dev]"
+      - name: "Run linting"
+        run: "python3 -m invoke lint"
+      - name: "Run type checking"
+        run: "python3 -m invoke type-check"
+        continue-on-error: true
+      - name: "Run tests"
+        run: "python3 -m invoke test"
