@@ -20,7 +20,7 @@ def reformat(c):
 @task
 def lint(c):
     c.run(
-        "flake8 --show-source --statistics --max-line-length 100 mopidy_webhooks tests",
+        "flake8 --show-source --statistics mopidy_webhooks tests",
         pty=pty,
     )
     c.run("check-manifest", pty=pty)
